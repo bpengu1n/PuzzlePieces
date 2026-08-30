@@ -45,6 +45,16 @@ for "dismissed" / "installed" flags.
 The module also adds a `can-install` class to `document.documentElement`
 once a prompt has been captured, as a CSS hook for showing an install button.
 
+## Testing
+
+```sh
+node --test test.js
+```
+
+Uses Node's built-in test runner against a minimal hand-rolled shim of
+`window`/`navigator`/`document` (there's no real browser in the loop) — no
+dependencies, no npm install.
+
 ## Changing this module
 
 This file is consumed by other repositories as a git submodule. Make changes

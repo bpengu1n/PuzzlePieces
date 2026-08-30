@@ -55,6 +55,14 @@ upright), or a `case` in `Parser.prototype.command`. An unrecognized command
 falls through to plain upright text (the name without the backslash), which
 silently renders wrong — add it to the appropriate table instead.
 
+## Testing
+
+```sh
+node --test test.js
+```
+
+Uses Node's built-in test runner — no dependencies, no npm install.
+
 ## Changing this module
 
 This file is consumed by other repositories as a git submodule. Make changes

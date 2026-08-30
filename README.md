@@ -29,6 +29,13 @@ Each module directory is self-contained: its own `README.md` documents what
 it does, its public API, and how to use it. Start there for any module you
 want to use.
 
+## Testing
+
+Every module carries its own tests next to it (`<module>/test.js` for JS,
+`<module>/test_<module>.py` for Python) — see a module's README for the
+exact command. `.github/workflows/test.yml` discovers and runs all of them
+on every pull request.
+
 ## Using a module in your project
 
 Add this repo as a submodule, then reference the module's files directly:
@@ -73,9 +80,13 @@ a consuming project's behalf.
    hardcoded branding/text, app-specific storage keys) — a module here
    should make sense with zero knowledge of where it came from.
 3. Write a `README.md` for the module: what it does, its public API, a
-   usage example, and its dependencies (default to none).
-4. Add a row for it under **Layout** and **Current consumers** above.
-5. If it replaces code in the project it came from, update that project to
+   usage example, its dependencies (default to none), and how to run its
+   tests.
+4. Write a test file (`test.js` / `test_<module>.py` — see **Testing**
+   above) unless the module is trivial enough that one isn't worth it. It
+   will be picked up by CI automatically; no workflow changes needed.
+5. Add a row for it under **Layout** and **Current consumers** above.
+6. If it replaces code in the project it came from, update that project to
    consume this module as a submodule instead of owning the file — see
    that project's own `AGENTS.md` for how it wires submodules in.
 

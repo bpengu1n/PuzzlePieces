@@ -20,7 +20,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Cache-Control', 'no-store')   # always see your edits
         super().end_headers()
 
+class Server(socketserver.TCPServer):
+    # Without this, a quick restart on the same port (a save-and-reload loop,
+    # or a test suite) fails with "Address already in use" while the old
+    # socket sits in TIME_WAIT, even though nothing is still listening.
+    allow_reuse_address = True
+
 if __name__ == '__main__':
-    with socketserver.TCPServer(('', PORT), Handler) as httpd:
+    with Server(('', PORT), Handler) as httpd:
         print('serving %s on http://localhost:%d  (ctrl-c to stop)' % (os.getcwd(), PORT))
         httpd.serve_forever()

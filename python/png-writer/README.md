@@ -27,6 +27,17 @@ resampling or blending. For anything beyond simple icon-style art, use
 Pillow instead; this exists specifically to avoid that dependency for
 projects that don't otherwise need it.
 
+## Testing
+
+```sh
+python3 test_png_writer.py -v
+```
+
+Round-trips a drawn canvas through a small PNG-reading helper defined in the
+test itself (decompress + reparse, using the same stdlib `zlib`/`struct`)
+and checks the pixels come back unchanged. No dependencies beyond the
+standard library.
+
 ## Changing this module
 
 This file is consumed by other repositories as a git submodule. Make changes

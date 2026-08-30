@@ -1,0 +1,53 @@
+# Runs each module's own tests on every pull request. There is no shared
+# test framework here — each module's tests live alongside it (js/*/test.js,
+# python/*/test_*.py) and are discovered by pattern, so adding a module with
+# a test file needs no change to this workflow. Add a job here only when a
+# new *language* directory needs its own toolchain/dependency setup.
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  js:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run js/*/test.js with Node's built-in test runner
+        run: |
+          mapfile -t files < <(find js -name 'test.js' | sort)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "no JS test files found"; exit 0
+          fi
+          printf 'found: %s\n' "${files[@]}"
+          node --test "${files[@]}"
+
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install optional per-module test dependencies
+        # pages-qr's own test skips its one segno-dependent case when segno
+        # isn't installed; installing it here means CI still exercises it.
+        run: pip install segno
+      - name: Run python/*/test_*.py with unittest
+        run: |
+          mapfile -t files < <(find python -name 'test_*.py' | sort)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "no Python test files found"; exit 0
+          fi
+          status=0
+          for f in "${files[@]}"; do
+            echo "== $f =="
+            python3 "$f" -v || status=1
+          done
+          exit $status
