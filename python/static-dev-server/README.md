@@ -17,6 +17,16 @@ without a hard refresh. `.webmanifest` files are served with the correct
 `application/manifest+json` MIME type, which Python's default map doesn't
 know.
 
+## Testing
+
+```sh
+python3 test_serve.py -v
+```
+
+Launches the server as a subprocess against a temp directory and checks the
+response, headers, MIME type, and 404 behavior over real HTTP. No
+dependencies beyond the standard library.
+
 ## Changing this module
 
 This file is consumed by other repositories as a git submodule. Make changes

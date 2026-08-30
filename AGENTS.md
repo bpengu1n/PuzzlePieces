@@ -80,7 +80,8 @@ duplicate API docs here; keep the layout table above to one line per module.
    to generic names, remove hardcoded app text/branding/routes, and
    parameterize anything that was previously a hardcoded app value (e.g. a
    storage-key prefix becomes a constructor argument, per `local-store`).
-4. Write the module's `README.md`.
+4. Write the module's `README.md`, and a test file (see **Testing** below)
+   unless the module is trivial enough that one isn't worth it.
 5. Add one line for it to the layout table in this file and in the
    top-level `README.md`, plus a row in `README.md`'s **Current consumers**
    section naming the project(s) that use it.
@@ -156,12 +157,29 @@ logic that isn't specific to it and could plausibly serve other projects
 
 ## Testing
 
-Modules here are small enough that most are exercised indirectly through
-the consuming project's own test suite. If a module in this repo is complex
-enough to warrant its own tests, put them alongside it in its module
-directory (e.g. `<lang>/<module-name>/test.js`) with a one-line "how to run"
-note in that module's README — do not add a repo-wide test framework unless
-multiple modules actually need one.
+Every module has its own tests, alongside it in its module directory, with
+a one-line "how to run" note in that module's README:
+
+- JS: `<module>/test.js`, run with Node's built-in test runner
+  (`node --test <module>/test.js`) — no dependencies.
+- Python: `<module>/test_<module>.py`, run with `unittest`
+  (`python3 <module>/test_<module>.py -v`) — no dependencies beyond the
+  standard library, except where a module's own README says otherwise (only
+  `pages-qr`, for the one test that needs `segno`, and it self-skips rather
+  than failing when `segno` isn't installed).
+
+There is no repo-wide test framework or runner config — `.github/workflows/test.yml`
+discovers tests by filename pattern (`js/*/test.js`,
+`python/*/test_*.py`) and runs whatever it finds, so a new module's tests
+are picked up automatically; you don't need to touch the workflow when
+adding one. Add a job to that workflow only when a new top-level language
+directory needs its own toolchain/setup (e.g. the first `c/` or `cpp/`
+module will need a compiler step).
+
+**A module without tests is still acceptable** for something too trivial to
+break in an interesting way (e.g. a pure constant table) — use judgment,
+matching the level of testing to what a bug in that module would actually
+cost a consumer.
 
 ## Commit and push
 

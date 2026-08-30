@@ -37,6 +37,16 @@ Give each consuming app its own `prefix` (e.g. `'myapp:'`) — `localStorage`
 is already scoped per-origin, so the prefix is only to keep keys legible
 within one app's storage, not to prevent cross-app collisions.
 
+## Testing
+
+```sh
+node --test test.js
+```
+
+Uses Node's built-in test runner and a small in-memory `localStorage` shim
+(including one that throws, to exercise the private-mode guard) — no
+dependencies, no npm install.
+
 ## Changing this module
 
 This file is consumed by other repositories as a git submodule. Make changes

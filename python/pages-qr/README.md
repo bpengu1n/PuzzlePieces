@@ -19,6 +19,16 @@ python3 make_qr.py docs/install-qr.png https://a.b/app  # explicit URL
 Run it from inside the target repository (it reads `git remote get-url
 origin` in the current directory) if relying on URL derivation.
 
+## Testing
+
+```sh
+python3 test_make_qr.py -v
+```
+
+URL-derivation tests run against real throwaway `git init` repos and need no
+extra dependency. The one test that generates an actual QR image needs
+`segno` and skips itself (not a failure) when it isn't installed.
+
 ## Changing this module
 
 This file is consumed by other repositories as a git submodule. Make changes
