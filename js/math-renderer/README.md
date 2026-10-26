@@ -41,6 +41,11 @@ MathRenderer.text('...');
 
 ## Output styling
 
+A bare `-` in math renders as a true minus sign (U+2212). Hyphens are left
+alone inside commands that take their argument as plain text: `\text{}`,
+`\mathrm{}`, `\mbox{}`, `\mathsf{}` and `\mathcal{}`. `\mathit{}` and
+`\mathbf{}` render their argument as math, so a `-` there becomes a minus.
+
 The renderer emits plain elements with classes (`mfrac`, `mnum`, `mden`,
 `msym`, `mu`, `mover`, `mbinom`, `mquad`, `mthin`, `sub`, `sup`, `math`,
 `mathblock`) and expects the consuming app to style them — this module ships

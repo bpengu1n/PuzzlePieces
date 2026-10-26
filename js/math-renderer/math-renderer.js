@@ -113,6 +113,7 @@
       }
 
       if (c === '{' || c === '}') continue;          // grouping only
+      if (c === '-') { out += '\u2212'; continue; }   // a real minus sign, not a hyphen
       if (c === ' ') { out += ' '; continue; }
       if (/[A-Za-z]/.test(c)) { out += '<i>' + c + '</i>'; continue; }
       out += esc(c);
