@@ -68,3 +68,9 @@ test('text: null/undefined input renders as empty string', () => {
   assert.strictEqual(MathRenderer.text(null), '');
   assert.strictEqual(MathRenderer.text(undefined), '');
 });
+
+test('render: a hyphen in math becomes a minus sign; text inside \\mathrm keeps it', () => {
+  assert.strictEqual(MathRenderer.render('q-1'), '<i>q</i>\u22121');
+  assert.strictEqual(MathRenderer.render('2^{-n}'), '2<sup>\u2212<i>n</i></sup>');
+  assert.strictEqual(MathRenderer.render('\\mathrm{ind-cpa}'), '<span class="mu">ind-cpa</span>');
+});
